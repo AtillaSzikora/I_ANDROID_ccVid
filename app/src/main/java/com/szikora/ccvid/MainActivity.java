@@ -1,6 +1,7 @@
 package com.szikora.ccvid;
 
 import android.content.SharedPreferences;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,26 +12,29 @@ import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
     private EditText email, password;
+    private TextInputLayout emailLayout, passwordLayout;
     private SharedPreferences mPrefs;
     private Map<String, ?> usersMap;
     private String userJson, passwordRegex;
     private Gson gson;
     private User user;
-    private String[] toastMessages;
+    private String[] messageToUser;
 
     private void initialization() {
         email = (EditText) findViewById(R.id.emailField);
         password = (EditText) findViewById(R.id.passwordField);
+        emailLayout = (TextInputLayout) findViewById(R.id.emailLayout);
+        passwordLayout = (TextInputLayout) findViewById(R.id.passwordLayout);
         mPrefs = getPreferences(MODE_PRIVATE);
         gson = new Gson();
         passwordRegex = "^[a-zA-Z0-9]{4,}$";
-        toastMessages = new String[]{
+        messageToUser = new String[]{
                 "Successfully signed in!",
                 "Wrong email or password!",
                 "User already exists!",
                 " has successfully signed up!",
                 "Wrong email format!",
-                "Password has to be alphanumeric\nand at least 4 characters long!"};
+                "4+ characters long alphanumeric password needed!"};
     }
 
     @Override
@@ -42,30 +46,39 @@ public class MainActivity extends AppCompatActivity {
 
     public void signInButtonClick(View view) {
         if (areEmailAndPassExist()) {
-            Toast.makeText(MainActivity.this, toastMessages[0], Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, messageToUser[0], Toast.LENGTH_LONG).show();
+            emailLayout.setError(null);
+            passwordLayout.setError(null);
         } else {
-            Toast.makeText(MainActivity.this, toastMessages[1], Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, messageToUser[1], Toast.LENGTH_LONG).show();
+            emailLayout.setError(null);
+            passwordLayout.setError(null);
         }
     }
 
     public void signUpButtonClick(View view) {
         if (areInputsValid()) {
             if (isEmailExist()) {
-                Toast.makeText(MainActivity.this, toastMessages[2], Toast.LENGTH_SHORT).show();
+                emailLayout.setError(messageToUser[2]);
+                passwordLayout.setError(null);
             } else {
                 signUpUser(new User(email.getText().toString(), password.getText().toString()));
-                Toast.makeText(MainActivity.this, email.getText().toString() + toastMessages[3],
+                Toast.makeText(MainActivity.this, email.getText().toString() + messageToUser[3],
                         Toast.LENGTH_LONG).show();
+                emailLayout.setError(null);
+                passwordLayout.setError(null);
             }
         }
     }
 
     private boolean areInputsValid() {
         if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
-            Toast.makeText(MainActivity.this, toastMessages[4], Toast.LENGTH_LONG).show();
+            emailLayout.setError(messageToUser[4]);
+            passwordLayout.setError(null);
             return false;
         } else if (!password.getText().toString().matches(passwordRegex)) {
-            Toast.makeText(MainActivity.this, toastMessages[5], Toast.LENGTH_LONG).show();
+            passwordLayout.setError(messageToUser[5]);
+            emailLayout.setError(null);
             return false;
         }
         return true;
