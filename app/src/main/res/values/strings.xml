@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name">CCvid</string>
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="signIn">Sign In</string>
-    <string name="signUp">Sign Up</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="newPassword"> new password</string>
+    <string name="passwordAgain"> new password*</string>
+    <string name="signIn">Sign in</string>
+    <string name="signUp">Sign up</string>
+    <string name="profileImage">profileImage</string>
+    <string name="save">Save</string>
 </resources>

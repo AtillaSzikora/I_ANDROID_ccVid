@@ -1,5 +1,6 @@
 package com.szikora.ccvid;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class SigningActivity extends AppCompatActivity {
     private EditText email, password;
     private TextInputLayout emailLayout, passwordLayout;
     private SharedPreferences mPrefs;
@@ -24,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         email = (EditText) findViewById(R.id.emailField);
         password = (EditText) findViewById(R.id.passwordField);
         emailLayout = (TextInputLayout) findViewById(R.id.emailLayout);
-        passwordLayout = (TextInputLayout) findViewById(R.id.passwordLayout);
+        passwordLayout = (TextInputLayout) findViewById(R.id.newPasswordLayout);
         mPrefs = getPreferences(MODE_PRIVATE);
         gson = new Gson();
         passwordRegex = "^[a-zA-Z0-9]{4,}$";
@@ -40,17 +41,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_signing);
         initialization();
     }
 
     public void signInButtonClick(View view) {
         if (areEmailAndPassExist()) {
-            Toast.makeText(MainActivity.this, messageToUser[0], Toast.LENGTH_LONG).show();
-            emailLayout.setError(null);
-            passwordLayout.setError(null);
+            Intent intent = new Intent(this, ProfileActivity.class);
+            intent.putExtra("email", email.getText().toString());
+            startActivity(intent);
         } else {
-            Toast.makeText(MainActivity.this, messageToUser[1], Toast.LENGTH_LONG).show();
+            Toast.makeText(this, messageToUser[1], Toast.LENGTH_LONG).show();
             emailLayout.setError(null);
             passwordLayout.setError(null);
         }
@@ -63,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
                 passwordLayout.setError(null);
             } else {
                 signUpUser(new User(email.getText().toString(), password.getText().toString()));
-                Toast.makeText(MainActivity.this, email.getText().toString() + messageToUser[3],
+                Toast.makeText(this, email.getText().toString() + messageToUser[3],
                         Toast.LENGTH_LONG).show();
                 emailLayout.setError(null);
                 passwordLayout.setError(null);

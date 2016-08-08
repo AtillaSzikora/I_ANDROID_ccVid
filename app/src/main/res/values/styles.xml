@@ -3,14 +3,14 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorPrimaryDark">@color/orangeDarken4</item>
-        <item name="colorAccent">@color/orange</item>
+        <item name="colorPrimary">@color/teal</item>
+        <item name="colorPrimaryDark">@color/tealDarken4</item>
+        <item name="colorAccent">@color/teal</item>
     </style>
 
     <style name="MyButton" parent="Theme.AppCompat.Light">
-        <item name="colorControlHighlight">@color/orangeDarken4</item>
-        <item name="colorButtonNormal">@color/orange</item>
+        <item name="colorControlHighlight">@color/tealDarken4</item>
+        <item name="colorButtonNormal">@color/teal</item>
     </style>
 
 </resources>
