@@ -2,6 +2,7 @@ package com.szikora.ccvid;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,17 +17,18 @@ public class SigningActivity extends AppCompatActivity {
     private TextInputLayout emailLayout, passwordLayout;
     private SharedPreferences mPrefs;
     private Map<String, ?> usersMap;
-    private String userJson, passwordRegex;
+    private String userJson;
+    public static String passwordRegex;
     private Gson gson;
     private User user;
-    private String[] messageToUser;
+    public static String[] messageToUser;
 
     private void initialization() {
         email = (EditText) findViewById(R.id.emailField);
         password = (EditText) findViewById(R.id.passwordField);
         emailLayout = (TextInputLayout) findViewById(R.id.emailLayout);
         passwordLayout = (TextInputLayout) findViewById(R.id.newPasswordLayout);
-        mPrefs = getPreferences(MODE_PRIVATE);
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         gson = new Gson();
         passwordRegex = "^[a-zA-Z0-9]{4,}$";
         messageToUser = new String[]{
