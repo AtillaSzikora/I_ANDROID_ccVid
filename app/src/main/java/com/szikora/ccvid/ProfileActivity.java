@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.gson.Gson;
@@ -17,7 +18,8 @@ public class ProfileActivity extends AppCompatActivity {
     private EditText newPassword, passwordAgain;
     private TextView profileLabel;
     private TextInputLayout newPasswordLayout, passwordAgainLayout;
-    private String currentUserEmail, userJson;
+    private ImageView profileImage;
+    private String currentUserEmail;
     private String [] messagesToUser;
     private Gson gson;
     private User user;
@@ -27,7 +29,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         initialization();
-        setProfileEmailToUser();
+        setProfile();
     }
 
     private void initialization() {
@@ -37,6 +39,7 @@ public class ProfileActivity extends AppCompatActivity {
         profileLabel = (TextView) findViewById(R.id.profileLabel);
         newPasswordLayout = (TextInputLayout) findViewById(R.id.newPasswordLayout);
         passwordAgainLayout = (TextInputLayout) findViewById(R.id.passwordAgainLayout);
+        profileImage = (ImageView) findViewById(R.id.profileImage);
         mPrefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         gson = new Gson();
         user = new User();
@@ -46,9 +49,13 @@ public class ProfileActivity extends AppCompatActivity {
         };
     }
 
-    private void setProfileEmailToUser() {
+    private void setProfile() {
         profileLabel.setText(currentUserEmail);
+        String profileImageName = currentUserEmail.replace("@", "").replace(".", "");
+        int profileImageId = getResources().getIdentifier(profileImageName, "drawable", getPackageName());
+        profileImage.setImageResource(profileImageId);
     }
+    
 
     public void saveButtonClick(View view) {
         if (!newPassword.getText().toString().matches(SigningActivity.passwordRegex)) {
@@ -69,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
         SharedPreferences.Editor prefsEditor = mPrefs.edit();
         user.setEmail(currentUserEmail);
         user.setPassword(newPassword.getText().toString());
-        userJson = gson.toJson(user);
+        String userJson = gson.toJson(user);
         prefsEditor.putString(user.getEmail(), userJson);
         prefsEditor.apply();
     }

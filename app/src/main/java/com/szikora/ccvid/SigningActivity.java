@@ -37,7 +37,7 @@ public class SigningActivity extends AppCompatActivity {
                 "User already exists!",
                 " has successfully signed up!",
                 "Wrong email format!",
-                "4+ characters long alphanumeric password needed!"};
+                "Not 4+ characters long alphanumeric password!"};
     }
 
     @Override
